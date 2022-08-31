@@ -1,0 +1,80 @@
+﻿@inherits LayoutComponentBase
+@using DFE.Infrastructure.Library.UI;
+
+<RadzenDialog />
+<RadzenNotification />
+<RadzenTooltip />
+<RadzenContextMenu />
+
+<RadzenLayout>
+<RadzenHeader>
+    <ChildContent>
+        <div class="row justify-content-start align-items-center">
+            <div class="col-5 d-flex align-items-center">
+                <RadzenSidebarToggle Click="@(args => { sidebarExpanded = !sidebarExpanded; bodyExpanded = !bodyExpanded; })">
+                </RadzenSidebarToggle>
+                <RadzenLabel Text="OpenForms OpenUI">
+                </RadzenLabel>
+            </div>
+            <div class="col-7 d-flex align-items-center justify-content-end">                
+                <RadzenDropDown class="mx-0 mx-lg-3" TValue="string" TextProperty="Text" ValueProperty="Value" Data="@ThemeService.Themes" Value="@ThemeService.CurrentTheme" Change="@ChangeTheme" />                
+            </div>
+        </div>
+    </ChildContent>
+</RadzenHeader>
+<RadzenBody @ref="@body0" @bind-Expanded="@bodyExpanded">
+    <ChildContent>
+        <RadzenContentContainer Name="main">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12 pt-4 pb-5 px-3 px-lg-5">
+                        @Body
+                        <RadzenCard class="mt-5 content-footer">
+                            <div class="row align-items-center">
+                                <div class="col-12 col-lg-7 px-5 py-3 text-center text-lg-left">
+                                    <h2 class="mb-3">Create a Dashboard from Data</h2>
+                                    <p class="mb-2">OpenForms allows you to build forms using simple UI Elements. You can also view your data on a dashboard table using configurable filter</p>
+                                </div>                                
+                            </div>
+                        </RadzenCard>
+                    </div>
+                </div>
+            </div>
+        </RadzenContentContainer>
+    </ChildContent>
+</RadzenBody>
+<RadzenSidebar @ref="@sidebar0" @bind-Expanded="@sidebarExpanded" class="demos-sidebar" style="display: flex; flex-direction: column">
+    <div style="padding: 1rem">
+        <RadzenTextBox Placeholder="Find Menu ..." type="search" @oninput="@FilterPanelMenu" style="width: 100%" />
+    </div>
+    <div style="flex: 1; overflow: auto">
+    <RadzenPanelMenu Match="NavLinkMatch.Prefix" Click="@PanelMenuClick">        
+        @foreach (var its in navIts)
+        {
+            <NavigationItem Props=@its>
+                @if (its.Children != null)
+                {
+                    @foreach (var example in its.Children)
+                    {
+                        if (example.Children != null)
+                        {
+                            <NavigationItem @bind-Expanded=@example.Expanded Props=@example>
+                            @foreach (var child in example.Children)
+                            {
+                                <NavigationItem @bind-Expanded=@child.Expanded Props=@child />
+                            }
+                            </NavigationItem>
+                        }
+                        else
+                        {
+                            <NavigationItem @bind-Expanded=@example.Expanded Props=@example />
+                        }
+                    }
+                }
+            </NavigationItem>
+        }
+    </RadzenPanelMenu>
+    </div>
+</RadzenSidebar>
+</RadzenLayout>
+<Theme />

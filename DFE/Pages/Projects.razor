@@ -1,0 +1,28 @@
+﻿@page "/projects"
+@using DFE.Model.Request;
+
+<RadzenCard class="mt-5 content-footer">
+    <RadzenTemplateForm TItem="Project" Data=@projectData Submit=@createProject>
+        <RadzenFieldset Text="Project information">
+            <div class="row mb-5">
+                <div class="col-md-4">
+                    <RadzenLabel Text="Project Name" />
+                </div>
+                <div class="col">
+                    <RadzenTextBox style="display: block" Name="projectName" @bind-Value=@projectData.projectName Class="w-100" />
+                    <RadzenRequiredValidator Component="projectName" Text="Project name is required" Popup="true" Style="position: absolute" />
+                </div>
+            </div>
+            <div class="row mb-5">
+                <div class="col-md-4">
+                    <RadzenLabel Text="Project Details" />
+                </div>
+                <div class="col">
+                    <RadzenTextArea style="display: block" Name="projectDetails" @bind-Value=@projectData.projectDetails Class="w-100" />
+                    <RadzenRequiredValidator Component="projectDetails" Text="Project Details is required" Popup="true" Style="position: absolute" />
+                </div>
+            </div>
+            <RadzenButton ButtonType="ButtonType.Submit" Text="Submit"></RadzenButton>
+        </RadzenFieldset>
+    </RadzenTemplateForm>
+</RadzenCard>

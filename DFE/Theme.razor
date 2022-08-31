@@ -1,0 +1,11 @@
+﻿@using DFE.Infrastructure.Library.UI;
+@inject NavigationManager NavigationManager
+@inject ThemeService ThemeService
+<link href="_content/Radzen.Blazor/css/@(ThemeService.CurrentTheme).css" rel="stylesheet" />
+@code {
+    public string themeName { get; set; }
+    protected override void OnInitialized()
+    {
+        ThemeService.Initialize(NavigationManager);
+    }
+}
